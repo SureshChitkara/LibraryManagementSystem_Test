@@ -1,0 +1,68 @@
+/****************************************SC**********************************
+ *****************
+ * Name: Suresh Chitkara *
+ * Course: Software Development I CEN-3024C-24667 *
+ * Date: 3/9/2024 *
+ * Description: The LibraryManagementSystemTest
+ * contains unit tests for the functionality implemented in the LibraryManagementSystem class.
+ *****************************************SC**********************************
+ ******************/
+import static org.junit.Assert.*; /* SC This line imports all static members (methods)
+from the Assert class in the org.junit package. */
+import org.junit.Before; /* SC This line imports the Before annotation from the org.junit package. */
+import org.junit.Test; /* SC This line imports the Test annotation from the org.junit package. */
+
+public class LibraryManagementSystemTest { /* SC Test class for the LibraryManagementSystem class. */
+    private LibraryManagementSystem lms; /* SC declares a private instance variable named lms of type
+     LibraryManagementSystem within the LibraryManagementSystemTest class. */
+
+    @Before /* SC ensures that each test starts with a fresh instance of LibraryManagementSystem,
+    promoting isolation and preventing interference between tests. */
+    public void setUp() {
+        lms = new LibraryManagementSystem();
+    }
+
+    @Test /* SC This test ensures that the addBook() method behaves as expected and correctly adds
+     books to the library in the LibraryManagementSystem class. */
+    public void testAddBook() {
+        Book book = new Book("Sample Book", "John Doe", 123456);
+        lms.addBook(book);
+        assertTrue("Book should be added to the library", lms.getBooks().contains(book));
+    }
+
+    @Test /* SC This test ensures that the removeBookByBarcode() method behaves as expected and correctly removes
+    books from the library based on their barcode numbers in the LibraryManagementSystem class. */
+    public void testRemoveBookByBarcode() {
+        Book book = new Book("Sample Book", "John Doe", 123456);
+        lms.addBook(book);
+        lms.removeBookByBarcode(123456);
+        assertFalse("Book should be removed from the library", lms.getBooks().contains(book));
+    }
+
+    @Test
+    public void testRemoveBookByTitle() {
+        Book book = new Book("Sample Book", "John Doe", 123456);
+        lms.addBook(book);
+        lms.removeBookByTitle("Sample Book");
+        assertFalse("Book should be removed from the library", lms.getBooks().contains(book));
+    }
+
+    @Test /* SC This test ensures that the removeBookByTitle() method behaves as expected and correctly removes
+    books from the library based on their titles in the LibraryManagementSystem class. */
+    public void testCheckOutBook() {
+        Book book = new Book("Sample Book", "John Doe", 123456);
+        lms.addBook(book);
+        lms.checkOutBook("Sample Book");
+        assertTrue("Book should be checked out", book.isCheckedOut());
+    }
+
+    @Test /* SC This test ensures that the checkInBook() method behaves as expected and correctly updates the
+    checked-out status of books in the library in the LibraryManagementSystem class. */
+    public void testCheckInBook() {
+        Book book = new Book("Sample Book", "John Doe", 123456);
+        lms.addBook(book);
+        lms.checkOutBook("Sample Book");
+        lms.checkInBook("Sample Book");
+        assertFalse("Book should be checked in", book.isCheckedOut());
+    }
+}
