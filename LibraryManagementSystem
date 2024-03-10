@@ -1,0 +1,95 @@
+/****************************************SC**********************************
+ *****************
+ * Name: Suresh Chitkara *
+ * Course: Software Development I CEN-3024C-24667 *
+ * Date: 3/3/2024 *
+ * Description: The librarymanagementsystem classacts as the backbone of the library management application,
+ * orchestrating the various functionalities required to effectively manage the library's collection of books.
+ *****************************************SC**********************************
+ ******************/
+import java.util.ArrayList; /* SC This imports the ArrayList class from the java.util package. */
+import java.util.List; /* SC The statement import java.util.List; imports the List interface from the java.util package
+ into Java program. */
+
+public class LibraryManagementSystem { /* SC The LibraryManagementSystem class represents the core functionality of a
+library management system. */
+    private List<Book> books; /* SC The declaration private List<Book> books; within the LibraryManagementSystem class
+     indicates that the class maintains a private instance variable named books, which is a list of Book objects. */
+
+    public LibraryManagementSystem() { /* SC The constructor public LibraryManagementSystem() initializes the books list
+     when a new instance of the LibraryManagementSystem class is created. */
+        this.books = new ArrayList<>();
+    }
+
+    public void addBook(Book book) { /* SC The addBook(Book book) method in the LibraryManagementSystem class is
+    responsible for adding a new book to the library's collection. */
+        books.add(book);
+    }
+
+    public void removeBookByBarcode(int barcode) { /* SC The removeBookByBarcode(int barcode) method provides
+     functionality to remove a book from the library's collection based on its barcode, ensuring efficient management
+     of the library's inventory. */
+
+        for (Book book : books) { /* SC If a book with the matching barcode is found, we remove it from the list and
+         return from the method. */
+            if (book.getBarcode() == barcode) {
+                books.remove(book);
+                return;
+            }
+        }
+        System.out.println("Book with barcode " + barcode + " not found."); /* SC Indicate that the book with the
+        specified barcode was not found in the library's collection. */
+    }
+
+    public void removeBookByTitle(String title) { /* SC When removing elements from a collection while iterating through
+     it using a for-each loop, it can lead to a ConcurrentModificationException if elements are removed directly from
+     the collection. */
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
+                books.remove(book);
+                return;
+            }
+        }
+        System.out.println("Book with title '" + title + "' not found."); /* When this message is printed, it notifies
+        the user that the requested book title does not exist in the library, so it couldn't be removed. */
+    }
+
+    public void checkOutBook(String title) { /* SC The provided method checkOutBook is designed to allow a user to check
+    out a book from the library's collection by specifying its title. */
+        for (Book book : books) {
+            if (book.getTitle().equals(title)) {
+                if (!book.isCheckedOut()) {
+                    book.setCheckedOut(true);
+                    System.out.println("Book '" + title + "' checked out successfully.");
+                    return;
+                } else {
+                    System.out.println("Book '" + title + "' is already checked out.");
+                    return;
+                }
+            }
+        }
+        System.out.println("Book '" + title + "' not found in the library.");
+    }
+
+    public void checkInBook(String title) { /* SC The provided method checkInBook is designed to allow a user to check
+    in a book from the library's collection by specifying its title. */
+        for (Book book : books) {
+            if (book.getTitle().equals(title)) {
+                if (book.isCheckedOut()) {
+                    book.setCheckedOut(false);
+                    System.out.println("Book '" + title + "' checked in successfully.");
+                    return;
+                } else {
+                    System.out.println("Book '" + title + "' is already checked in.");
+                    return;
+                }
+            }
+        }
+        System.out.println("Book '" + title + "' not found in the library.");
+    }
+
+    public List<Book> getBooks() { /* SC The getBooks() method in the LibraryManagementSystem class returns the list of
+    books currently present in the library. */
+        return books;
+    }
+}
